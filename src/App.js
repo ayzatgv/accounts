@@ -1,25 +1,57 @@
-import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import React, { Component } from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+import { setLogin } from './Actions/LoginAction';
+
+import Login from './Components/Login';
+import Register from './Components/Register';
+import Navigation from './Components/Navigation';
+import NotFound from './Components/NotFound';
+import Main from './Components/Main';
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+    if (localStorage.getItem('Token') != null) {
+      this.props.setLogin(true);
+    }
+    else {
+      this.props.setLogin(false);
+    }
+  }
+
+  render() {
+    return (
+      (this.props.Login === true) ?
+        (
+          <div>
+            <Router >
+              <Navigation />
+              <Switch>
+                <Route path="/" exact component={Main} />
+                <Route component={NotFound} />
+              </Switch>
+            </Router>
+          </div>
+        ) :
+        <div>
+          <Router >
+            <Switch>
+              <Route path="/login" exact component={Login} />
+              <Route path="/register" exact component={Register} />
+              <Route path="/" component={Login} />
+            </Switch>
+          </Router>
+        </div>
+    );
+  }
 }
 
-export default App;
+const mapStateToProps = state => ({
+  Login: state.Login
+});
+
+export default connect(mapStateToProps, { setLogin })(App);
