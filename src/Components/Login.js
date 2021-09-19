@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Button, FormGroup, FormControl } from "react-bootstrap";
+import { Formik, Form } from 'formik';
+import { Button } from "react-bootstrap";
+import { TextField } from './TextField';
+import * as Yup from 'yup';
 import { setLogin } from '../Actions/LoginAction';
 import { Link } from 'react-router-dom';
+
 import api from '../api';
 
-import "./Login.css";
+import "./Main.css";
 
 class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
+
             width: 0,
             height: 0
         }
 
-        this.handleClick = this.handleClick.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -32,53 +34,57 @@ class Login extends Component {
         window.addEventListener('resize', this.updateWindowDimensions);
     }
 
-    handleClick() {
-        api.post(`users/login`, { username: this.state.username, password: this.state.password })
-            .then(res => {
-                localStorage.setItem('Token', res.data.data.token);
-                
-                this.props.setLogin(true);
-
-               alert('ورود شما با موفقیت انجام شد')
-            })
-            .catch(error => {
-                alert('ورود شما با خطا مواجه شد')
-            });
-    }
-
     render() {
-
+        const validate = Yup.object({
+            mobileNo: Yup.string()
+                .required('Mobile Number is required'),
+            password: Yup.string()
+                .required('Password is required'),
+        })
         return (
-            <>
-                <Link id='GoToRegister' style={{ display: 'none' }} to="/register">a</Link>
+            <div className="main">
+                <div className="aha">
+                    <Link id='GoToRegister' style={{ display: 'none' }} to="/register">a</Link>
 
-                <div className="Login">
-                    <div className="aha">
-                        <FormGroup controlId="username">
-                            <div>نام کاربری</div>
-                            <FormControl
-                                autoFocus
-                                value={this.state.username}
-                                onChange={(e) => this.setState({ username: e.target.value })}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="password">
-                            <div>رمز عبور</div>
-                            <FormControl
-                                value={this.state.password}
-                                onChange={(e) => this.setState({ password: e.target.value })}
-                                type="password"
-                            />
-                        </FormGroup >
-                        <Button onClick={this.handleClick} block>
-                            ورود
-                        </Button>
-                        <Button onClick={() => { document.getElementById('GoToRegister').click(); }} block>
-                            صفحه ثبت نام
-                        </Button>
-                    </div>
+                    <Formik
+                        initialValues={{
+                            mobileNo: '',
+                            password: '',
+                        }}
+                        validationSchema={validate}
+                        onSubmit={values => {
+                            console.log(values)
+                            api.post(`accounts/login`, {mobileNo:values.mobileNo,password:values.password})
+                                .then(res => {
+                                    localStorage.setItem('Token', res.data.data.token);
+                                    localStorage.setItem('Full-Name', res.data.data.profile.fullName);
+
+                                    this.props.setLogin(true);
+
+                                    alert('ورود شما با موفقیت انجام شد')
+                                    console.log(res)
+                                })
+                                .catch(error => {
+                                    alert('ورود شما با خطا مواجه شد')
+                                    console.log(error)
+                                });
+                        }}
+                    >
+                        {formik => (
+                            <div>
+                                <h1 className="my-4 font-weight-bold .display-4">Sign In</h1>
+                                <Form>
+                                    <TextField label="Mobile Number" name="mobileNo" type="text" />
+                                    <TextField label="password" name="password" type="password" />
+                                    <button className="btn btn-dark mt-2" type="submit">Login</button>
+                                    <button className="btn btn-danger mt-2 mx-1" type="reset">Reset</button>
+                                    <Button className="mt-2 mx-1" onClick={() => { document.getElementById('GoToRegister').click(); }} block> Go To Register </Button>
+                                </Form>
+                            </div>
+                        )}
+                    </Formik>
                 </div>
-            </>
+            </div>
         );
     }
 }

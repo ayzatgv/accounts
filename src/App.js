@@ -11,6 +11,8 @@ import Register from './Components/Register';
 import Navigation from './Components/Navigation';
 import NotFound from './Components/NotFound';
 import Main from './Components/Main';
+import GetUser from './Components/GetUser';
+import DetailUser from './Components/DetailUser';
 
 class App extends Component {
   constructor(props) {
@@ -32,6 +34,8 @@ class App extends Component {
               <Navigation />
               <Switch>
                 <Route path="/" exact component={Main} />
+                <Route path="/user" exact component={GetUser} />
+                <Route path="/user/detail/:id" exact component={DetailUser} />
                 <Route component={NotFound} />
               </Switch>
             </Router>

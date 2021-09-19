@@ -13,6 +13,7 @@ class Navigation extends Component {
 
     handleClick() {
         localStorage.removeItem('Token');
+        localStorage.removeItem('Full-Name');
         this.props.setLogin(false);
     }
 
@@ -21,15 +22,17 @@ class Navigation extends Component {
         return (
             <>
                 <Link id='GoToMain' style={{ display: 'none' }} to="/">a</Link>
+                <Link id='GoToUsers' style={{ display: 'none' }} to="/user">a</Link>
 
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="mr-auto">
                             <Nav.Link ><div onClick={() => { document.getElementById('GoToMain').click(); }}>Main</div></Nav.Link>
+                            <Nav.Link ><div onClick={() => { document.getElementById('GoToUsers').click(); }}>Users</div></Nav.Link>
                         </Nav>
                         <Nav>
-                                <NavDropdown title={'Token?'} id="collasible-nav-dropdown">
+                                <NavDropdown title={localStorage.getItem('Full-Name')} id="collasible-nav-dropdown">
                                 <NavDropdown.Item className="" onClick={this.handleClick}>Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>

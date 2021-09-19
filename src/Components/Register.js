@@ -1,28 +1,23 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { Button, FormGroup, FormControl, Form } from "react-bootstrap";
+import { Formik, Form } from 'formik';
+import { Button } from "react-bootstrap";
+import { TextField } from './TextField';
+import * as Yup from 'yup';
 import { Link } from 'react-router-dom';
+
 import api from '../api';
 
-import "./Register.css";
-
+import "./Main.css";
 
 class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userName: '',
-            email: '',
-            password: '',
-            fullName: '',
-            age: 0,
-            gender: 'Male',
-            id: 0,
+
             width: 0,
             height: 0
         }
 
-        this.handleClick = this.handleClick.bind(this);
         this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
     }
 
@@ -37,97 +32,84 @@ class Register extends Component {
         window.addEventListener('resize', this.updateWindowDimensions);
     }
 
-    handleClick() {
-        api.post(`users`, { id: this.state.id, userName: this.state.userName, email: this.state.email, password: this.state.password, fullName: this.state.fullName, age: this.state.age, gender: this.state.gender })
-            .then(res => {
-                alert('حساب کاربری شما با موفقیت ساخته شد')
-                console.log(res)
-                console.log(this.state.gender)
-            })
-            .catch(error => {
-                alert('ساخت حساب کاربری شما با خطا مواجه شد')
-                console.log(error)
-                console.log(this.state.gender)
-            });
-    }
-
     render() {
-
+        const validate = Yup.object({
+            firstName: Yup.string()
+                .max(15, 'Must be 15 characters or less')
+                .required('Required'),
+            lastName: Yup.string()
+                .max(20, 'Must be 20 characters or less')
+                .required('Required'),
+            mail: Yup.string()
+                .email('Email is invalid'),
+            mobileNo: Yup.string()
+                .matches(/^[0-9]+$/, "Must be only digits")
+                .min(11, 'Must be exactly 11 digits')
+                .max(11, 'Must be exactly 11 digits')
+                .required('Required'),
+            password: Yup.string()
+                .min(6, 'Password must be at least 6 charaters')
+                .required('Password is required'),
+        })
         return (
-            <>
-                <Link id='GoToLogin' style={{ display: 'none' }} to="/login">a</Link>
+            <div className="main">
+                <div className="aha">
 
-                <div className="Register">
-                    <div className="aha">
-                        <FormGroup controlId="userName">
-                            <div>نام کاربری</div>
-                            <FormControl
-                                autoFocus
-                                value={this.state.userName}
-                                onChange={(e) => this.setState({ userName: e.target.value })}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="email">
-                            <div>ایمیل</div>
-                            <FormControl
-                                value={this.state.email}
-                                onChange={(e) => this.setState({ email: e.target.value })}
-                                type="email"
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="password">
-                            <div>رمز عبور</div>
-                            <FormControl
-                                value={this.state.password}
-                                onChange={(e) => this.setState({ password: e.target.value })}
-                                type="password"
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="fullName">
-                            <div>نام و نام خانوادگی</div>
-                            <FormControl
-                                value={this.state.fullName}
-                                onChange={(e) => this.setState({ fullName: e.target.value })}
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="age">
-                            <div>سن</div>
-                            <FormControl
-                                value={this.state.age}
-                                onChange={(e) => this.setState({ age: e.target.value })}
-                                type="number"
-                            />
-                        </FormGroup>
-                        <FormGroup controlId="gender">
-                            <div>جنسیت</div>
-                            <Form.Control onChange={(e) => { this.setState({ gender: e.target.value }) }} as="select">
-                                <option value={'Male'}>مرد</option>
-                                <option value={'Female'}>زن</option>
-                            </Form.Control>
-                        </FormGroup>
-                        <FormGroup controlId="id">
-                            <div>ای دی</div>
-                            <FormControl
-                                value={this.state.id}
-                                onChange={(e) => this.setState({ id: e.target.value })}
-                                type="number"
-                            />
-                        </FormGroup>
-                        <Button onClick={this.handleClick} block>
-                            ثبت نام
-                        </Button>
-                        <Button onClick={() => { document.getElementById('GoToLogin').click(); }} block>
-                            صفحه ورود
-                        </Button>
-                    </div>
+                    <Link id='GoToLogin' style={{ display: 'none' }} to="/login">a</Link>
+
+                    <Formik
+                        initialValues={{
+                            firstName: '',
+                            lastName: '',
+                            nationalId: '',
+                            personalCode: '',
+                            birthDate: '',
+                            address: '',
+                            mobileNo: '',
+                            phoneNo: '',
+                            isActive: true,
+                            profileImageCode: '',
+                            expireDate: '',
+                            password: '',
+                            mail: ''
+                        }}
+                        validationSchema={validate}
+                        onSubmit={values => {
+                            console.log(values)
+                            api.post(`/`, values)
+                                .then(res => {
+                                    alert('حساب کاربری شما با موفقیت ساخته شد')
+                                    console.log(res)
+                                })
+                                .catch(error => {
+                                    alert('ساخت حساب کاربری شما با خطا مواجه شد')
+                                    console.log(error)
+                                });
+                        }}
+                    >
+                        {formik => (
+                            <div>
+                                <h1 className="my-4 font-weight-bold .display-4">Sign Up</h1>
+                                <Form>
+                                    <TextField label="First Name" name="firstName" type="text" />
+                                    <TextField label="Last Name" name="lastName" type="text" />
+                                    <TextField label="National ID" name="nationalId" type="text" />
+                                    <TextField label="Personal Code" name="personalCode" type="text" />
+                                    <TextField label="Birth Date" name="birthDate" type="text" />
+                                    <TextField label="Mobile Number" name="mobileNo" type="text" />
+                                    <TextField label="Email" name="mail" type="email" />
+                                    <TextField label="password" name="password" type="password" />
+                                    <button className="btn btn-dark mt-2" type="submit">Register</button>
+                                    <button className="btn btn-danger mt-2 mx-1" type="reset">Reset</button>
+                                    <Button className="mt-2 mx-1" onClick={() => { document.getElementById('GoToLogin').click(); }} block> Go To Login </Button>
+                                </Form>
+                            </div>
+                        )}
+                    </Formik>
                 </div>
-            </>
-
+            </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
-});
-
-export default connect(mapStateToProps, {})(Register);
+export default (Register);

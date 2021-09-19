@@ -17,7 +17,7 @@ class Main extends Component {
 
         return (
            <div>
-               
+               Main Page
            </div>
         );
     }
