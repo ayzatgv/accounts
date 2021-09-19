@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { Form } from 'react-bootstrap';
+import { Form, Spinner } from 'react-bootstrap';
 import api from '../api';
 
 class GetUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLoading: true,
       columns: [
         {
           text: 'id',
@@ -61,6 +62,9 @@ class GetUser extends Component {
       })
       .catch(error => {
         console.log(error)
+      })
+      .finally(() => {
+        this.setState({ isLoading: false })
       });
   }
 
@@ -68,14 +72,21 @@ class GetUser extends Component {
 
     return (
       <>
-
         <Form.Control type="text" placeholder="search" onChange={this.handleInputChange} />
-        <BootstrapTable
-          keyField="id"
-          data={this.state.data}
-          columns={this.state.columns}
-          pagination={paginationFactory()}
-        />
+
+        {this.state.isLoading ? (
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        )
+          : (
+            <BootstrapTable
+              keyField="id"
+              data={this.state.data}
+              columns={this.state.columns}
+              pagination={paginationFactory()}
+            />
+          )}
       </>
     );
   }

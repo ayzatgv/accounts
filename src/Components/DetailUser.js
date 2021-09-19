@@ -8,10 +8,22 @@ import api from '../api';
 
 import "./Main.css";
 
+import { parse, isDate } from "date-fns";
+
+function parseDateString(value, originalValue) {
+    const parsedDate = isDate(originalValue)
+        ? originalValue
+        : parse(originalValue, "yyyy-MM-dd", new Date());
+
+    return parsedDate;
+}
+
 class DetailUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            today: new Date(),
+
             id: '',
             user: []
         }
@@ -45,14 +57,18 @@ class DetailUser extends Component {
                 .required('Required'),
             personalCode: Yup.string()
                 .required('Required'),
-            birthDate: Yup.string()
+            birthDate: Yup.date()
+                .transform(parseDateString)
+                .max(this.state.today)
                 .required('Required'),
             mobileNo: Yup.string()
                 .matches(/^[0-9]+$/, "Must be only digits")
                 .min(11, 'Must be exactly 11 digits')
                 .max(11, 'Must be exactly 11 digits')
                 .required('Required'),
-            expireDate: Yup.string()
+            expireDate: Yup.date()
+                .transform(parseDateString)
+                .min(this.state.today)
                 .required('Required'),
         })
         return (
