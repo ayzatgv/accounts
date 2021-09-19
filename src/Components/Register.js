@@ -76,7 +76,7 @@ class Register extends Component {
                         validationSchema={validate}
                         onSubmit={values => {
                             console.log(values)
-                            api.post(`/`, values)
+                            api.post(`accounts​`, values)
                                 .then(res => {
                                     alert('حساب کاربری شما با موفقیت ساخته شد')
                                     console.log(res)
