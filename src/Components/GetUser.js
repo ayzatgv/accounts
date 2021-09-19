@@ -46,6 +46,7 @@ class GetUser extends Component {
       .then(res => {
         console.log(res.data.data)
         this.setState({ data: res.data.data })
+        this.props.history.push(`user`);
       })
       .catch(error => {
         console.log(error)
@@ -67,7 +68,7 @@ class GetUser extends Component {
 
     return (
       <>
-      
+
         <Form.Control type="text" placeholder="search" onChange={this.handleInputChange} />
         <BootstrapTable
           keyField="id"

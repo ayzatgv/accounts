@@ -40,12 +40,18 @@ class Register extends Component {
             lastName: Yup.string()
                 .max(20, 'Must be 20 characters or less')
                 .required('Required'),
-            mail: Yup.string()
-                .email('Email is invalid'),
+            nationalId: Yup.string()
+                .required('Required'),
+            personalCode: Yup.string()
+                .required('Required'),
+            birthDate: Yup.string()
+                .required('Required'),
             mobileNo: Yup.string()
                 .matches(/^[0-9]+$/, "Must be only digits")
                 .min(11, 'Must be exactly 11 digits')
                 .max(11, 'Must be exactly 11 digits')
+                .required('Required'),
+            expireDate: Yup.string()
                 .required('Required'),
             password: Yup.string()
                 .min(6, 'Password must be at least 6 charaters')
@@ -64,19 +70,30 @@ class Register extends Component {
                             nationalId: '',
                             personalCode: '',
                             birthDate: '',
-                            address: '',
                             mobileNo: '',
-                            phoneNo: '',
-                            isActive: true,
-                            profileImageCode: '',
                             expireDate: '',
                             password: '',
-                            mail: ''
                         }}
                         validationSchema={validate}
                         onSubmit={values => {
+                            const data = {
+                                firstName: values.firstName,
+                                lastName: values.lastName,
+                                nationalId: values.nationalId,
+                                personalCode: values.personalCode,
+                                birthDate: values.birthDate,
+                                address: "placeholder",
+                                mobileNo: values.mobileNo,
+                                phoneNo: "placeholder",
+                                isActive: true,
+                                profileImageCode: "placeholder",
+                                expireDate: values.expireDate,
+                                password: values.password,
+                                mail: "placeholder"
+                            }
                             console.log(values)
-                            api.post(`accounts​`, values)
+                            console.log(data)
+                            api.post(`accounts​`, data)
                                 .then(res => {
                                     alert('حساب کاربری شما با موفقیت ساخته شد')
                                     console.log(res)
@@ -95,9 +112,9 @@ class Register extends Component {
                                     <TextField label="Last Name" name="lastName" type="text" />
                                     <TextField label="National ID" name="nationalId" type="text" />
                                     <TextField label="Personal Code" name="personalCode" type="text" />
-                                    <TextField label="Birth Date" name="birthDate" type="text" />
+                                    <TextField label="Birth date" name="birthDate" type="text" />
                                     <TextField label="Mobile Number" name="mobileNo" type="text" />
-                                    <TextField label="Email" name="mail" type="email" />
+                                    <TextField label="Expire date" name="expireDate" type="text" />
                                     <TextField label="password" name="password" type="password" />
                                     <button className="btn btn-dark mt-2" type="submit">Register</button>
                                     <button className="btn btn-danger mt-2 mx-1" type="reset">Reset</button>

@@ -54,7 +54,7 @@ class Login extends Component {
                         validationSchema={validate}
                         onSubmit={values => {
                             console.log(values)
-                            api.post(`accounts/login`, {mobileNo:values.mobileNo,password:values.password})
+                            api.post(`accounts/login`, { mobileNo: values.mobileNo, password: values.password })
                                 .then(res => {
                                     localStorage.setItem('Token', res.data.data.token);
                                     localStorage.setItem('Full-Name', res.data.data.profile.fullName);
