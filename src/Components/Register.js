@@ -104,7 +104,7 @@ class Register extends Component {
                             }
                             console.log(values)
                             console.log(data)
-                            api.post(`accounts​`, data)
+                            api.post(`accounts`, data)
                                 .then(res => {
                                     alert('حساب کاربری شما با موفقیت ساخته شد')
                                     console.log(res)
