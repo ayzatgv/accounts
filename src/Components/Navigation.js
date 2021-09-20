@@ -23,6 +23,7 @@ class Navigation extends Component {
             <>
                 <Link id='GoToMain' style={{ display: 'none' }} to="/">a</Link>
                 <Link id='GoToUsers' style={{ display: 'none' }} to="/user">a</Link>
+                <Link id='GoToRegister' style={{ display: 'none' }} to="/register">a</Link>
 
                 <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -30,6 +31,7 @@ class Navigation extends Component {
                         <Nav className="mr-auto">
                             <Nav.Link ><div onClick={() => { document.getElementById('GoToMain').click(); }}>Main</div></Nav.Link>
                             <Nav.Link ><div onClick={() => { document.getElementById('GoToUsers').click(); }}>Users</div></Nav.Link>
+                            <Nav.Link ><div onClick={() => { document.getElementById('GoToRegister').click(); }}>Register</div></Nav.Link>
                         </Nav>
                         <Nav>
                                 <NavDropdown title={localStorage.getItem('Full-Name')} id="collasible-nav-dropdown">

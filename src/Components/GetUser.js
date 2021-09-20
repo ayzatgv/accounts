@@ -15,11 +15,8 @@ class GetUser extends Component {
           dataField: 'id',
           events: {
             onClick: (e, column, columnIndex, row, rowIndex) => {
-              console.log(e);
               console.log(column);
-              console.log(columnIndex);
               console.log(row);
-              console.log(rowIndex);
               this.props.history.push(`user/detail/${row.id}`);
             }
           }
@@ -31,6 +28,34 @@ class GetUser extends Component {
         {
           text: 'mobileNo',
           dataField: 'mobileNo',
+        },
+        {
+          text: 'birthDate',
+          dataField: 'birthDate',
+        },
+        {
+          text: 'expireDate',
+          dataField: 'expireDate',
+        },
+        {
+          text: 'mail',
+          dataField: 'mail',
+        },
+        {
+          text: 'personalCode',
+          dataField: 'personalCode',
+        },
+        {
+          text: 'nationalId',
+          dataField: 'nationalId',
+        },
+        {
+          text: 'address',
+          dataField: 'address',
+        },
+        {
+          text: 'phoneNo',
+          dataField: 'phoneNo',
         },
       ],
       data: []
@@ -82,6 +107,7 @@ class GetUser extends Component {
           : (
             <BootstrapTable
               keyField="id"
+              responsive
               data={this.state.data}
               columns={this.state.columns}
               pagination={paginationFactory()}

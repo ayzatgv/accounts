@@ -36,6 +36,7 @@ class App extends Component {
                 <Route path="/" exact component={Main} />
                 <Route path="/user" exact component={GetUser} />
                 <Route path="/user/detail/:id" exact component={DetailUser} />
+                <Route path="/register" exact component={Register} />
                 <Route component={NotFound} />
               </Switch>
             </Router>
@@ -45,7 +46,6 @@ class App extends Component {
           <Router >
             <Switch>
               <Route path="/login" exact component={Login} />
-              <Route path="/register" exact component={Register} />
               <Route path="/" component={Login} />
             </Switch>
           </Router>

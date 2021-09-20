@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { Formik, Form } from 'formik';
-import { Button } from "react-bootstrap";
 import { TextField } from './TextField';
 import * as Yup from 'yup';
-import { Link } from 'react-router-dom';
 
 import api from '../api';
 
@@ -76,8 +74,6 @@ class Register extends Component {
             <div className="main">
                 <div className="aha">
 
-                    <Link id='GoToLogin' style={{ display: 'none' }} to="/login">a</Link>
-
                     <Formik
                         initialValues={{
                             firstName: '',
@@ -133,7 +129,6 @@ class Register extends Component {
                                     <TextField label="password" name="password" type="password" />
                                     <button className="btn btn-dark mt-2" type="submit">Register</button>
                                     <button className="btn btn-danger mt-2 mx-1" type="reset">Reset</button>
-                                    <Button className="mt-2 mx-1" onClick={() => { document.getElementById('GoToLogin').click(); }} block> Go To Login </Button>
                                 </Form>
                             </div>
                         )}

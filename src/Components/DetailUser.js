@@ -125,7 +125,7 @@ class DetailUser extends Component {
                     >
                         {formik => (
                             <div>
-                                <h1 className="my-4 font-weight-bold .display-4">Sign Up</h1>
+                                <h1 className="my-4 font-weight-bold .display-4">Update User Info</h1>
                                 <Form>
                                     <TextField label="First Name" name="firstName" type="text" />
                                     <TextField label="Last Name" name="lastName" type="text" />
