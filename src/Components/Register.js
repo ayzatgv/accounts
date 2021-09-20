@@ -93,14 +93,14 @@ class Register extends Component {
                                 nationalId: values.nationalId,
                                 personalCode: values.personalCode,
                                 birthDate: values.birthDate,
-                                address: "placeholder",
+                                address: "string",
                                 mobileNo: values.mobileNo,
-                                phoneNo: "placeholder",
+                                phoneNo: "string",
                                 isActive: true,
-                                profileImageCode: "placeholder",
+                                profileImageCode: "string",
                                 expireDate: values.expireDate,
                                 password: values.password,
-                                mail: "placeholder"
+                                mail: "string"
                             }
                             console.log(values)
                             console.log(data)
