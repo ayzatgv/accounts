@@ -59,7 +59,7 @@ class DetailUser extends Component {
                 .required('Required'),
             birthDate: Yup.date()
                 .transform(parseDateString)
-                .max(this.state.today)
+                .max(this.state.today,'birth date is bigger than todays date')
                 .required('Required'),
             mobileNo: Yup.string()
                 .matches(/^[0-9]+$/, "Must be only digits")
@@ -68,7 +68,7 @@ class DetailUser extends Component {
                 .required('Required'),
             expireDate: Yup.date()
                 .transform(parseDateString)
-                .min(this.state.today)
+                .min(this.state.today,'expire date is smaller than todays date')
                 .required('Required'),
         })
         return (
